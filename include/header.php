@@ -22,7 +22,7 @@ printf('<header>
 	    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li id="home"><a href="%s">Home</a></li>
-	        <li id="blog"><a href="%s">Log In</a></li>
+	        <li id="blog"><a href="%s">My Contact</a></li>
 	         
 	      </ul>
 	       

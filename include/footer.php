@@ -18,7 +18,7 @@ printf('<footer class="footer-distributed">
 				<p class="footer-links">
 					<a href="%s">Home</a>
 					·
-					<a href="%s">Log In</a> 
+					<a href="%s">My Contact</a> 
 				</p>
 
 				<p>Company Name &copy; 2015</p>

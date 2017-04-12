@@ -38,7 +38,7 @@ include("include/footer.php");
 <body>
 
 <?php 
-	head("/", "pages/login.php");
+	head("", "pages/login.php");
 ?>
 
 <section class="homebody">
@@ -69,7 +69,7 @@ include("include/footer.php");
 				                </label>
 				                <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
 				                </form>
-				                <a href="#" class="text-center new-account">Create an account </a>
+				                <a href="pages/createaccount.php" class="text-center new-account">Create an account </a>
 				            </div>
 				            
 			</div>
@@ -150,7 +150,7 @@ include("include/footer.php");
 
 
  <?php
- 	foot("/", "pages/login.php");
+ 	foot("", "pages/login.php");
  ?>
 
 
