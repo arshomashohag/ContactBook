@@ -1,6 +1,6 @@
 <?php
 
-function head($home, $education, $interest, $photo, $links, $conatact){
+function head($home, $login){
 
 
 printf('<header>
@@ -14,7 +14,7 @@ printf('<header>
 	        <span class="icon-bar"></span>                        
 	      </button>
 
-	      <i class="fa fa-comments fa-3x" aria-hidden="true"></i>
+	      <i class="fa fa-address-book fa-3x" aria-hidden="true"></i>
 
 
 	    </div>
@@ -22,18 +22,15 @@ printf('<header>
 	    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li id="home"><a href="%s">Home</a></li>
-	        <li id="blog"><a href="%s">Education</a></li>
-	        <li id="about"><a href="%s">Interests</a></li>
-	        <li id="about"><a href="%s">Album</a></li>
-	        <li id="about"><a href="%s">Links</a></li>
-	        <li id="contact"><a href="%s">Contact</a></li>
+	        <li id="blog"><a href="%s">Log In</a></li>
+	         
 	      </ul>
 	       
 	    </div>
 	  </div>
 	</nav>
 
-</header>' , $home, $education, $interest, $photo, $links, $conatact);
+</header>' , $home, $login);
 
 
 }
