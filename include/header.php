@@ -2,7 +2,10 @@
 
 function head($home, $login){
 
-
+ if(session_id() == '' || !isset($_SESSION)) {
+     // session isn't started
+     session_start();
+ }
 printf('<header>
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
@@ -22,7 +25,12 @@ printf('<header>
 	    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li id="home"><a href="%s">Home</a></li>
-	        <li id="blog"><a href="%s">My Contact</a></li>
+	         <li id="blog"><a href="%s">My Contact</a></li>', $home, $login);
+
+           if(isset($_SESSION['username'])){
+             printf('
+           
+	        <li id="blog"><a href="pages/logout.php">Log Out</a></li>
 	         
 	      </ul>
 	       
@@ -30,7 +38,20 @@ printf('<header>
 	  </div>
 	</nav>
 
-</header>' , $home, $login);
+</header>');
+
+}
+
+else{
+	print('</ul>
+	       
+	    </div>
+	  </div>
+	</nav>
+
+</header>');
+}
+  
 
 
 }
