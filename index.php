@@ -38,7 +38,7 @@ include("include/footer.php");
 <body>
 
 <?php 
-	head("", "pages/login.php");
+	head("", "pages/contacts.php");
 ?>
 
 <section class="homebody">
@@ -150,7 +150,7 @@ include("include/footer.php");
 
 
  <?php
- 	foot("", "pages/login.php");
+ 	foot("", "pages/contacts.php");
  ?>
 
 

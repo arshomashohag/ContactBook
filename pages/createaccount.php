@@ -38,7 +38,7 @@ include("../include/footer.php");
 <body>
 
 <?php 
-	head("../", "login.php");
+	head("../", "contacts.php");
 ?>
  
 
@@ -93,7 +93,7 @@ include("../include/footer.php");
 
 
  <?php
- 	foot("../", "login.php");
+ 	foot("../", "contacts.php");
  ?>
 
 

@@ -1,12 +1,26 @@
 <?php
 include("../include/footer.php");
+include("../php/db_function.php");
+
+
+
+
+if($_POST){
+	session_start();
+	
+	if(isValidUser($_POST['email'], $_POST['password'])){
+ 		$_SESSION['username'] = $_POST['email'];
+ 		header('Location: contacts.php');
+ 	}
+	 
+}
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CBook</title>
+	<title>CBook-Login</title>
 
     <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -55,7 +69,7 @@ include("../include/footer.php");
 	    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li id="home"><a href="../">Home</a></li>
-	        <li id="blog"><a href="">My Contact</a></li>
+	        <li id="blog"><a href="contacts.php">My Contact</a></li>
 	         
 	      </ul>
 	       
@@ -72,17 +86,19 @@ include("../include/footer.php");
 	<div class="jumbotron">
 		<div class="account-wall">
 		    <h3 class="text-center login-title">Sign in </h3>
-		    <form class="form-signin">
-		    <input type="text" class="form-control" placeholder="Email" required autofocus>
-		    <input type="password" class="form-control" placeholder="Password" required>
-		    <button class="btn btn-lg btn-primary btn-block" type="submit">
-		        Sign in</button>
-		    <label class="checkbox pull-left">
-		        <input type="checkbox" value="remember-me">
-		        Remember me
-		    </label>
-		    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+
+		    <form class="form-signin" action="login.php" method="post">
+
+			    <input type="email" class="form-control" name="email" placeholder="Email" required autofocus>
+			    <input type="password" class="form-control" name="password" placeholder="Password" required>
+			    <button class="btn btn-lg btn-primary btn-block" type="submit">
+			        Sign in</button>
+			    <label class="checkbox pull-left">
+			    <input type="checkbox" value="remember-me">Remember me</label>
+
+			    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
 		    </form>
+
 		    <a href="pages/createaccount.php" class="text-center new-account">Create an account </a>
 		</div>
 	</div>
@@ -92,7 +108,7 @@ include("../include/footer.php");
 
 
  <?php
- 	foot("", "pages/login.php");
+ 	foot("../", "contacts.php");
  ?>
 
 
