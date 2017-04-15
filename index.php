@@ -2,6 +2,12 @@
 include("include/header.php");
 include("include/footer.php");
 
+if(session_id()=='' || !isset($_SESSION)) {
+    // session isn't started
+    session_start();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -54,25 +60,30 @@ include("include/footer.php");
                     You can share addresses with others, add notes, images, and more from one central location.
 				</p>
 			</div>
-			<div class="col col-md-4">
-				
-				            <div class="account-wall">
-				                <h1 class="text-center login-title">Sign in </h1>
-				                <form class="form-signin">
-				                <input type="text" class="form-control" placeholder="Email" required autofocus>
-				                <input type="password" class="form-control" placeholder="Password" required>
-				                <button class="btn btn-lg btn-primary btn-block" type="submit">
-				                    Sign in</button>
-				                <label class="checkbox pull-left">
-				                    <input type="checkbox" value="remember-me">
-				                    Remember me
-				                </label>
-				                <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
-				                </form>
-				                <a href="pages/createaccount.php" class="text-center new-account">Create an account </a>
-				            </div>
-				            
-			</div>
+			<?php
+
+			if(!isset($_SESSION['username'])){
+					printf('<div class="col col-md-4">
+						
+						            <div class="account-wall">
+						                <h1 class="text-center login-title">Sign in </h1>
+						                <form class="form-signin" action="pages/login.php" method="post">
+						                <input type="text" class="form-control" placeholder="Email" required autofocus>
+						                <input type="password" class="form-control" placeholder="Password" required>
+						                <button class="btn btn-lg btn-primary btn-block" type="submit">
+						                    Sign in</button>
+						                <label class="checkbox pull-left">
+						                    <input type="checkbox" value="remember-me">
+						                    Remember me
+						                </label>
+						                <a href="https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=what+is+online+address+book" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+						                </form>
+						                <a href="pages/createaccount.php" class="text-center new-account">Create an account </a>
+						            </div>
+						            
+					</div>');
+		      }
+		 ?>
 		</div>
 	</div>
 
