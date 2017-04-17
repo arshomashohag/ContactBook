@@ -1,6 +1,6 @@
 <?php
 
-function head($home, $login){
+function head($home, $login, $logout=null){
 
  if(session_id() == '' || !isset($_SESSION)) {
      // session isn't started
@@ -30,7 +30,7 @@ printf('<header>
            if(isset($_SESSION['username'])){
              printf('
            
-	        <li id="blog"><a href="pages/logout.php">Log Out</a></li>
+	        <li id="blog"><a href="%s">Log Out</a></li>
 	         
 	      </ul>
 	       
@@ -38,7 +38,7 @@ printf('<header>
 	  </div>
 	</nav>
 
-</header>');
+</header>', $logout);
 
 }
 

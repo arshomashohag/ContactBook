@@ -1,12 +1,12 @@
 <?php
 include("include/header.php");
 include("include/footer.php");
+include("php/db_function.php");
 
 if(session_id()=='' || !isset($_SESSION)) {
     // session isn't started
     session_start();
 }
-
 
 ?>
 
@@ -44,7 +44,7 @@ if(session_id()=='' || !isset($_SESSION)) {
 <body>
 
 <?php 
-	head("", "pages/contacts.php");
+	head("", "pages/contacts.php", "pages/logout.php");
 ?>
 
 <section class="homebody">
@@ -68,8 +68,8 @@ if(session_id()=='' || !isset($_SESSION)) {
 						            <div class="account-wall">
 						                <h1 class="text-center login-title">Sign in </h1>
 						                <form class="form-signin" action="pages/login.php" method="post">
-						                <input type="text" class="form-control" placeholder="Email" required autofocus>
-						                <input type="password" class="form-control" placeholder="Password" required>
+						                <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
+						                <input type="password" class="form-control" name="password" placeholder="Password" required>
 						                <button class="btn btn-lg btn-primary btn-block" type="submit">
 						                    Sign in</button>
 						                <label class="checkbox pull-left">

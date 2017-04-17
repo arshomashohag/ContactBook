@@ -2,6 +2,7 @@
 
 include("../include/header.php");
 include("../include/footer.php");
+include("../php/db_function.php");
 
 if(session_id()=='' || !isset($_SESSION)) {
     // session isn't started
@@ -10,6 +11,32 @@ if(session_id()=='' || !isset($_SESSION)) {
 
 if(!isset($_SESSION['username'])){
 	header('Location: login.php');
+}
+
+$info="";
+
+if(isset($_POST['add'])){
+	 $ret = insertNewContact($_SESSION['username'], $_POST['name'], $_POST['email'], $_POST['phone']);
+	 if($ret==5){
+	 	$info = "New contact not added!!";
+	 }
+	 else if($ret==1){
+	 	$info = "User not found !!";
+	 }
+	 else if($ret==2){
+	 	$info = "Contact ID can't be retrived!!!";
+	 }
+	 else if($ret==3){
+	 	$info="Email and Phone no not set !!";
+	 }
+	 else if($ret==4){
+	 	$info="Phone no not set !!";
+	 }
+
+	 else{
+	 	$info="Contact Added !!";
+	 }
+	unset($_POST);
 }
 
 
@@ -22,7 +49,7 @@ if(!isset($_SESSION['username'])){
 	<head>
 		<title>CBook-Contacts</title>
 
-
+      
 
 		    <!-- Latest compiled and minified CSS -->
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -48,90 +75,143 @@ if(!isset($_SESSION['username'])){
 			<script src="https://use.fontawesome.com/b3e68927bc.js"></script>
 
 
+			<script type="text/javascript">
+		 	function searchContact(str){
+
+		 		 
+
+		 		           var xmlhttp;
+                            
+
+								  if (window.XMLHttpRequest){
+
+								  xmlhttp = new XMLHttpRequest();
+
+								  }
+
+								   else{ 
+								     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+						          }
+
+						       xmlhttp.onreadystatechange = function(){
+						         
+						         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						                document.getElementById("cBody").innerHTML = xmlhttp.responseText;
+						            }
+
+						       }
+
+						      xmlhttp.open("GET", "../php/getSearching.php?q=" + str, true);
+						      xmlhttp.send();
+							
+                    return;							 
+
+		 	}
+		 </script>
+
+
 	</head>
 
 	<body>
 	 
 	 <?php 
-	  	head('../', '');
+	  	head('../', '', 'logout.php');
 	  ?>
       
+
         <div class="container">
+        <?php 
+           if($GLOBALS['info']!=""){
+           	printf('<div class="alert alert-info" style="text-align:center">
+			  <strong>%s</strong>
+			</div>', $GLOBALS['info']);
+
+           }
+         ?>
         	<div class="row">
         		<div class="col-md-8">
         			 <div class="panel panel-default">
-	        			  <div class="panel-heading">All Contacts</div>
+	        			  <div class="panel-heading">
+	        			  	<span class="contactHead">All Contacts</span>
+							<div class="searchHead pull-right">
+								<div class="btn-group" style="float:right;">
+				        			<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				        			     <span class="glyphicon glyphicon-cog"></span>
+				        			     <span class="sr-only">Toggle Dropdown</span>
+			        			     </button>
+			        			      <ul class="dropdown-menu">
+			        			      		<li>
+				        			      		<button class="btn btn-default" style="width: 100%">
+				        			      		<span aria-hidden="true"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Import</span>
+				        			      		</button>
+			        			      		</li>
+			        			      		<li role="separator" class="divider"></li>
+			        			      		<li><button class="btn btn-default" style="width: 100%"><span aria-hidden="true"><i class="fa fa-cloud-download" aria-hidden="true"></i>Export</span></button></li>
+			        			      	</ul>
+			        			  </div>
+								<input type="text" id="srcCont" class="search" name="search" placeholder="Search" onkeyup="searchContact(this.value)">
+							</div>
+	        			  </div>
 
-	        			  <div class="panel-body">
+	        			  <div class="panel-body" id="pBody">
 	        			      <table class="table table-striped">
 	        			      		<thead>
 	        			      			 <tr>
 	        			      			 	<th>Name</th>
 	        			      			 	<th>Email</th>
 	        			      			 	<th>Contact No.</th>
-	        			      			 	<th><i class="fa fa-cog fa-2x pull-right"></i></th>
+	        			      			 	<th><span pull-right">More</span></th>
 	        			      			 </tr>
 	        			      		</thead>
+ 
 
-	        			      		<tbody>
+	        			      			<tbody id="cBody">
 
-	        			      			<tbody>
-	        			      				<tr>
-	        			      					<td>
-	        			      						Md. Shohag Mia
-	        			      					</td>
-	        			      					<td>
-	        			      						shohag_92_ru@yahoo.com
-	        			      					</td>
-	        			      					<td>
-	        			      						01744431381
-	        			      					</td>
-	        			      					<td>
-	        			      						<div class="btn-group" style="float:right;">
-	        			      							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        			      								<span class="glyphicon glyphicon-cog"></span>
-	        			      								<span class="sr-only">Toggle Dropdown</span>
-	        			      							</button>
-	        			      							<ul class="dropdown-menu">
-	        			      								<li><button class="btn btn-default btn-block" data-toggle="modal" data-target="#editmodal"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button></li>
-	        			      								<li role="separator" class="divider"></li>
-	        			      								<li><a class="delete_anchor" href=""><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a></li>
-	        			      							</ul>
-	        			      						</div>
-	        			      					</td>
-	        			      				</tr>
-	        			      				<tr>
-	        			      					<td>
-	        			      						Md. Shohag Mia
-	        			      					</td>
-	        			      					<td>
-	        			      						shohag_92_ru@yahoo.com
-	        			      					</td>
-	        			      					<td>
-	        			      						01744431381
-	        			      					</td>
-	        			      					<td>
-	        			      						<div class="btn-group" style="float:right;">
-	        			      							<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        			      								<span class="glyphicon glyphicon-cog"></span>
-	        			      								<span class="sr-only">Toggle Dropdown</span>
-	        			      							</button>
-	        			      							<ul class="dropdown-menu">
-	        			      								<li><button class="btn btn-default btn-block" data-toggle="modal" data-target="#editmodal"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button></li>
-	        			      								<li role="separator" class="divider"></li>
-	        			      								<li><a class="delete_anchor" href=""><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a></li>
-	        			      							</ul>
-	        			      						</div>
-	        			      					</td>
-	        			      				</tr>
-	        			      			</tbody>
+	        			      			   <?php 
+	        			      			    $result = getAllContacts($_SESSION['username']);
+	        			      			      
+	        			      			    if($result){ 
+                                             if(count($result)>=1){
+	        			      			    foreach ($result as $row) {
+	        			      			    	
+			        			      			  printf('
+			        			      				<tr>
+			        			      					<td>
+			        			      						%s
+			        			      					</td>
+			        			      					<td>
+			        			      						%s
+			        			      					</td>
+			        			      					<td>
+			        			      						%s
+			        			      					</td>
+			        			      					<td>
+			        			      						<div class="btn-group" >
+			        			      							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			        			      								<span class="glyphicon glyphicon-cog"></span>
+			        			      								<span class="sr-only">Toggle Dropdown</span>
+			        			      							</button>
+			        			      							<ul class="dropdown-menu">
+			        			      								<li>
+				        			      								<button class="btn btn-default btn-block" data-toggle="modal" data-target="#%s"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+				        			      								</button>
+			        			      								</li>
+			        			      								<li role="separator" class="divider"></li>
+			        			      								<li><a   href=""><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a></li>
+			        			      								<li role="separator" class="divider"></li>
+			        			      								<li><a href="details.php?id=%s">
+			        			      								<span aria-hidden="true">
+																	<i class="fa fa-info" aria-hidden="true"></i>
+																	 Details
+			        			      								</span></a>
+			        			      								</li>
+			        			      							</ul>
+			        			      						</div>
+			        			      					</td>
+			        			      				</tr>
 
-	        			      		</tbody>
-	        			      </table>
-
-
-	        			      <!-- Modal -->
-										  <div class="modal fade" id="editmodal" role="dialog">
+			        			      	  <!-- Modal -->
+										  <div class="modal fade" id="%s" role="dialog">
 										    <div class="modal-dialog">
 										    
 										      <!-- Modal content-->
@@ -144,9 +224,12 @@ if(!isset($_SESSION['username'])){
 										        <div class="modal-body">
 										           <form method="post" action="">
                                                      <input type="hidden" name="blog_id" value="">
-										           	<textarea class="form-control" name="udpost" rows="5">
-										           		Text here.
-										           	</textarea>
+
+										           	<input class="form-control" name="name" value="%s">
+										           	
+										           	<input class="form-control" name="email" value="%s">
+										           	<input class="form-control" name="phone" value="%s">
+													
 										           	<button type="submit" class="btn btn-primary">Done</button>  
 										           	 
 										           </form>
@@ -162,7 +245,25 @@ if(!isset($_SESSION['username'])){
 
 
 
-	   					             <div class="clearfix"></div>
+	   					             <div class="clearfix"></div>', $row['Name'], $row['Email'], $row['P_Number'], $row['CID'], $row['CID'], $row['CID'], $row['Name'], $row['Email'], $row['P_Number']);
+
+			        			      			}
+			        			      		}
+			        			      		else{
+			        			      			print("No Contacts !!!");
+			        			      		}
+	        			      			   }
+	        			      			   else{
+	        			      			   	print('Query Problem !!!');
+	        			      			   }
+	        			      			  ?>
+	        			      			</tbody>
+
+	        			      		 
+	        			      </table>
+
+
+	        			                  
 	        			  </div>
 
         			 </div>
@@ -171,19 +272,26 @@ if(!isset($_SESSION['username'])){
         		<div class="col-md-4">
         			<div class="panel panel-info">
         				<div class="panel-heading">
-        					Add Contact
+        					<span class="contactHead">Add Contact</span>
         				</div>
         				<div class="panel-body">
-        					<form >
-        						<label for="FName" >First Name :</label>
-        						<input class="form-control" type="text" name="fname" id="FName" placeholder="Example">
-        						<label for="LName" >Last Name :</label>
-        						<input class="form-control" type="text" name="lname" id="LName" placeholder="Sarkar">
-        						<label for="Email" >Email :</label>
+        					<form action="insertc.php" method="post">
+        						<label for="name" >Name</label>
+        						<input class="form-control" type="text" name="name" id="name" placeholder="Example">
+        						<label for="Email" >Email</label>
         						<input class="form-control" type="email" name="email" id="Email" placeholder="Example@example.com">
-        						<label for="CNo" >Contact No :</label>
-        						<input class="form-control" type="text" name="contact" id="CNo" placeholder="01*********">
-        						<button class="form-control" type="submit" class="btn btn-primary" style="margin-top:5px"> Add </button>
+        						<label for="CNo" >Contact No</label>
+        						<input class="form-control" type="text" name="phone" id="CNo" placeholder="01*********">
+        						<label for="CNo" >Date Of Birth</label>
+        						<input class="form-control" type="text" name="dob" id="dob" placeholder="Date of birth">
+        						<label for="CNo" >House No</label>
+        						<input class="form-control" type="text" name="house" id="house" placeholder="House No">
+        						<label for="CNo" >Road No</label>
+        						<input class="form-control" type="text" name="road" id="road" placeholder="Road no">
+        						<label for="CNo" >City</label>
+        						<input class="form-control" type="text" name="city" id="city" placeholder="City">
+
+        						<button name="add"  type="submit" class="form-control btn btn-primary" style="margin-top:5px">Add Contact</button>
 
         					</form>
         				</div>

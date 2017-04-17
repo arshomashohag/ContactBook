@@ -1,6 +1,20 @@
 <?php
 include("../include/header.php");
 include("../include/footer.php");
+include("../php/db_function.php");
+
+$alert = "";
+
+
+if($_POST){
+   if(strcmp($_POST['password'], $_POST['pconfirmation'])==0){
+   	$alert = addUser($_POST['fname'], $_POST['lname'], $_POST['email'], $_POST['password']);
+   }
+   else{
+   	$alert = "Password dont't match !!";
+   }
+}
+
 
 ?>
 
@@ -38,11 +52,25 @@ include("../include/footer.php");
 <body>
 
 <?php 
-	head("../", "contacts.php");
+	head("../", "contacts.php", "logout.php");
 ?>
  
 
 <div class="container">
+<?php 
+           if($GLOBALS['alert']!=""){
+           	printf('<div class="alert alert-info" style="text-align:center">
+			  <strong>%s</strong><br>
+			  ', $GLOBALS['alert']);
+
+           	if( strcmp($GLOBALS['alert'], "User Added !!")==0){
+           		printf("<span> <a href='login.php'>Log In</a> to continue</span>");
+           	}
+
+           	printf("</div>");
+
+           }
+         ?>
         <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         	<div class="panel panel-default">
@@ -50,16 +78,16 @@ include("../include/footer.php");
 			    		<h3 class="panel-title">Registration</h3>
 			 			</div>
 			 			<div class="panel-body">
-			    		<form role="form">
+			    		<form role="form" action="createaccount.php" method="post">
 			    			<div class="row">
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			                <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+			                <input type="text" name="fname" id="first_name" class="form-control input-sm" placeholder="First Name">
 			    					</div>
 			    				</div>
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+			    						<input type="text" name="lname" id="last_name" class="form-control input-sm" placeholder="Last Name">
 			    					</div>
 			    				</div>
 			    			</div>
@@ -76,7 +104,7 @@ include("../include/footer.php");
 			    				</div>
 			    				<div class="col-xs-6 col-sm-6 col-md-6">
 			    					<div class="form-group">
-			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
+			    						<input type="password" name="pconfirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
 			    					</div>
 			    				</div>
 			    			</div>

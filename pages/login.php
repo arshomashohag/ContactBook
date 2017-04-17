@@ -2,17 +2,35 @@
 include("../include/footer.php");
 include("../php/db_function.php");
 
+if(session_id()=='' || !isset($_SESSION)) {
+    // session isn't started
+    session_start();
+}
 
+$isok=true;
+$error="";
 
+if(isset($_POST['login']) ){
 
-if($_POST){
-	session_start();
-	
-	if(isValidUser($_POST['email'], $_POST['password'])){
+	 
+	if(empty($_POST['email']))
+		$error="Please enter your email !!";
+	else if(empty($_POST['password']))
+		$error="Please enter your password !!";
+
+ else{
+	$isok = isValidUser($_POST['email'], $_POST['password']);
+
+	if($isok){
  		$_SESSION['username'] = $_POST['email'];
  		header('Location: contacts.php');
  	}
-	 
+ 	 
+ 		unset($_POST['login']);
+ 		 
+ 	 
+ 	}
+ 	 	 
 }
 
 ?>
@@ -82,7 +100,19 @@ if($_POST){
 
 
 <div class="container">
+       <?php 
+          if(strcmp($error, "")){
+          	printf('<div class="alert alert-info" style="text-align:center">
+			  <strong>%s</strong>
+			</div>', $error);
+          }
+           else if($isok==false){
+           	printf('<div class="alert alert-info" style="text-align:center">
+			  <strong>Wrong Email or Password !! Try again with valid email and password !</strong>
+			</div>');
 
+           }
+        ?>
 	<div class="jumbotron">
 		<div class="account-wall">
 		    <h3 class="text-center login-title">Sign in </h3>
@@ -91,15 +121,15 @@ if($_POST){
 
 			    <input type="email" class="form-control" name="email" placeholder="Email" required autofocus>
 			    <input type="password" class="form-control" name="password" placeholder="Password" required>
-			    <button class="btn btn-lg btn-primary btn-block" type="submit">
+			    <button  name="login" class="btn btn-lg btn-primary btn-block" type="submit">
 			        Sign in</button>
 			    <label class="checkbox pull-left">
 			    <input type="checkbox" value="remember-me">Remember me</label>
 
-			    <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+			    <a href="https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=what+is+online+address+book" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
 		    </form>
 
-		    <a href="pages/createaccount.php" class="text-center new-account">Create an account </a>
+		    <a href="createaccount.php" class="text-center new-account">Create an account </a>
 		</div>
 	</div>
 	
