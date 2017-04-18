@@ -1,8 +1,9 @@
 <?php
 
-include("../include/header.php");
-include("../include/footer.php");
-include("../php/db_function.php");
+include_once("../include/header.php");
+include_once("../include/footer.php");
+include_once("../php/db_function.php");
+include_once('../php/contactBody.php');
 
 if(session_id()=='' || !isset($_SESSION)) {
     // session isn't started
@@ -66,6 +67,8 @@ if(isset($_POST['add'])){
 			<!-- Animate -->
 			<link rel="stylesheet" type="text/css" href="../css/animate.css">
 
+			  <!-- Datepicker -->
+				<link rel="stylesheet" type="text/css" href="../css/bootstrap-datepicker.css">
 
 			<!-- Latest compiled and minified JavaScript -->
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -73,7 +76,14 @@ if(isset($_POST['add'])){
 
 		    <!-- Font Awesome -->
 			<script src="https://use.fontawesome.com/b3e68927bc.js"></script>
+			<!-- Date picker -->
+			<script type="text/javascript" src="../js/bootstrap-datepicker.js"></script>
 
+
+
+
+
+            
 
 			<script type="text/javascript">
 		 	function searchContact(str){
@@ -107,6 +117,38 @@ if(isset($_POST['add'])){
                     return;							 
 
 		 	}
+
+
+
+		 	function deleteC(id){
+		 		  var xmlhttp;
+                            
+
+								  if (window.XMLHttpRequest){
+
+								  xmlhttp = new XMLHttpRequest();
+
+								  }
+
+								   else{ 
+								     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+						          }
+
+						       xmlhttp.onreadystatechange = function(){
+						         
+						         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						                document.getElementById("cBody").innerHTML = xmlhttp.responseText;
+						            }
+
+						       }
+
+						      xmlhttp.open("GET", "../php/deleteContact.php?q=" + id, true);
+						      xmlhttp.send();
+							
+                    return;		
+
+		 	}
+
 		 </script>
 
 
@@ -169,93 +211,8 @@ if(isset($_POST['add'])){
 
 	        			      			   <?php 
 	        			      			    $result = getAllContacts($_SESSION['username']);
-	        			      			      
-	        			      			    if($result){ 
-                                             if(count($result)>=1){
-	        			      			    foreach ($result as $row) {
-	        			      			    	
-			        			      			  printf('
-			        			      				<tr>
-			        			      					<td>
-			        			      						%s
-			        			      					</td>
-			        			      					<td>
-			        			      						%s
-			        			      					</td>
-			        			      					<td>
-			        			      						%s
-			        			      					</td>
-			        			      					<td>
-			        			      						<div class="btn-group" >
-			        			      							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			        			      								<span class="glyphicon glyphicon-cog"></span>
-			        			      								<span class="sr-only">Toggle Dropdown</span>
-			        			      							</button>
-			        			      							<ul class="dropdown-menu">
-			        			      								<li>
-				        			      								<button class="btn btn-default btn-block" data-toggle="modal" data-target="#%s"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
-				        			      								</button>
-			        			      								</li>
-			        			      								<li role="separator" class="divider"></li>
-			        			      								<li><a   href=""><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</a></li>
-			        			      								<li role="separator" class="divider"></li>
-			        			      								<li><a href="details.php?id=%s">
-			        			      								<span aria-hidden="true">
-																	<i class="fa fa-info" aria-hidden="true"></i>
-																	 Details
-			        			      								</span></a>
-			        			      								</li>
-			        			      							</ul>
-			        			      						</div>
-			        			      					</td>
-			        			      				</tr>
+	        			      			     getBody("", $result);
 
-			        			      	  <!-- Modal -->
-										  <div class="modal fade" id="%s" role="dialog">
-										    <div class="modal-dialog">
-										    
-										      <!-- Modal content-->
-										      <div class="modal-content">
-										        <div class="modal-header">
-										         
-										          <button type="button" class="close" data-dismiss="modal">&times;</button>
-										          <h4 class="modal-title">Edit Contact</h4>
-										        </div>
-										        <div class="modal-body">
-										           <form method="post" action="">
-                                                     <input type="hidden" name="blog_id" value="">
-
-										           	<input class="form-control" name="name" value="%s">
-										           	
-										           	<input class="form-control" name="email" value="%s">
-										           	<input class="form-control" name="phone" value="%s">
-													
-										           	<button type="submit" class="btn btn-primary">Done</button>  
-										           	 
-										           </form>
-										           
-										        </div>
-										        <div class="modal-footer"> 
-										          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										        </div>
-										      </div>
-										      
-										    </div>
-										  </div>
-
-
-
-	   					             <div class="clearfix"></div>', $row['Name'], $row['Email'], $row['P_Number'], $row['CID'], $row['CID'], $row['CID'], $row['Name'], $row['Email'], $row['P_Number']);
-
-			        			      			}
-			        			      		}
-			        			      		else{
-			        			      			print("No Contacts !!!");
-			        			      		}
-	        			      			   }
-	        			      			   else{
-	        			      			   	print('Query Problem !!!');
-	        			      			   }
 	        			      			  ?>
 	        			      			</tbody>
 
@@ -277,13 +234,13 @@ if(isset($_POST['add'])){
         				<div class="panel-body">
         					<form action="insertc.php" method="post">
         						<label for="name" >Name</label>
-        						<input class="form-control" type="text" name="name" id="name" placeholder="Example">
+        						<input class="form-control" type="text" name="name" id="name" placeholder="Example" required>
         						<label for="Email" >Email</label>
         						<input class="form-control" type="email" name="email" id="Email" placeholder="Example@example.com">
         						<label for="CNo" >Contact No</label>
         						<input class="form-control" type="text" name="phone" id="CNo" placeholder="01*********">
         						<label for="CNo" >Date Of Birth</label>
-        						<input class="form-control" type="text" name="dob" id="dob" placeholder="Date of birth">
+        						<input class="form-control datepicker" type="date" name="dob" id="dob">
         						<label for="CNo" >House No</label>
         						<input class="form-control" type="text" name="house" id="house" placeholder="House No">
         						<label for="CNo" >Road No</label>

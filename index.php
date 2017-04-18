@@ -70,7 +70,7 @@ if(session_id()=='' || !isset($_SESSION)) {
 						                <form class="form-signin" action="pages/login.php" method="post">
 						                <input type="text" class="form-control" name="email" placeholder="Email" required autofocus>
 						                <input type="password" class="form-control" name="password" placeholder="Password" required>
-						                <button class="btn btn-lg btn-primary btn-block" type="submit">
+						                <button class="btn btn-lg btn-primary btn-block" name="login" type="submit">
 						                    Sign in</button>
 						                <label class="checkbox pull-left">
 						                    <input type="checkbox" value="remember-me">
