@@ -11,9 +11,12 @@ if(session_id()=='' || !isset($_SESSION)) {
 }
 
 if(!isset($_SESSION['username'])){
+
 	header('Location: login.php');
+
 }
 
+$username = $_SESSION['username'];
 $info="";
 
 if(isset($_POST['add'])){
@@ -149,6 +152,36 @@ if(isset($_POST['add'])){
 
 		 	}
 
+		 	function importC(email){
+		 			var xmlhttp;
+                            
+
+								  if (window.XMLHttpRequest){
+
+								  xmlhttp = new XMLHttpRequest();
+
+								  }
+
+								   else{ 
+								     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+						          }
+
+						       xmlhttp.onreadystatechange = function(){
+						         
+						         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						                document.getElementById("info").innerHTML = xmlhttp.responseText;
+						            }
+
+						       }
+
+						      xmlhttp.open("GET", "../php/import.php?q=" + email, true);
+						      xmlhttp.send();
+							
+                    return;		
+
+		 	}
+
+		 	 
 		 </script>
 
 
@@ -170,6 +203,10 @@ if(isset($_POST['add'])){
 
            }
          ?>
+
+           <div class="alert-info" id="info">
+           	
+           </div>
         	<div class="row">
         		<div class="col-md-8">
         			 <div class="panel panel-default">
@@ -183,7 +220,8 @@ if(isset($_POST['add'])){
 			        			     </button>
 			        			      <ul class="dropdown-menu">
 			        			      		<li>
-				        			      		<button class="btn btn-default" style="width: 100%">
+			        			      		   <?php printf('<button class="btn btn-default"   onclick="importC(%s)">', $username); ?>
+				        			      		
 				        			      		<span aria-hidden="true"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Import</span>
 				        			      		</button>
 			        			      		</li>

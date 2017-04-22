@@ -14,14 +14,17 @@
   	$query = "INSERT INTO users (First_Name, Last_Name, Email, Password) VALUES ('$fname', '$lname', '$email', '$password')";
 
   	if(mysqli_query($db, $query)){
+  		mysqli_close($db);
   		return "User Added !!";
   	}
   	else{
+  		mysqli_close($db);
   		return "Problem creating new profile ! Please try again !";
   	}
 
    }
    else{
+   	mysqli_close($db);
    	return "User already exist with this email .";
    }
 
@@ -35,8 +38,10 @@
      $result = mysqli_query($db, $query);
 
      if(mysqli_num_rows($result)==1){
+     	mysqli_close($db);
      	return true;
      }
+     mysqli_close($db);
      return false;
   }
  
@@ -77,10 +82,14 @@
         while ($row = mysqli_fetch_assoc($r) ) {
         	$ret[] =  $row;
         }
+        mysqli_close($db);
         return $ret;
     }
 
-    else return false;
+    else {
+    	mysqli_close($db);
+    	return false;
+    }
 
   }
 
@@ -112,31 +121,37 @@
 			                if(mysqli_query($db, $query2)){
 
 			                	if(!mysqli_query($db, $query3)){
+			                		mysqli_close($db);
 			                		return 10;
 			                	 }
 			                      
 			                }
 
 			                else{
+			                	mysqli_close($db);
 			                	return 4;     
 			                	
 			                }
 			                 
 			  			}
 			  			else{
+			  				mysqli_close($db);
 			  				return 3;
 			  			}
 			          }
 			  		
 			  		else{
+			  			mysqli_close($db);
 			  			return 2;
 			  		}
 			  	 }
 			  	 else{
+			  	 	mysqli_close($db);
 			  	 	return 5;
 			  	 }
   	    }
   	    else{
+  	    	mysqli_close($db);
   			return 1;
    		}
   }
@@ -154,14 +169,34 @@
 
 
     if(!mysqli_query($db, $query)){
+    	mysqli_close($db);
     	return false;
     }
+    mysqli_close($db);
   return true;
 
   }
 
-  function editContact($email, $fname, $lname, $contact){
+  function editContact($cid, $name, $email, $phone, $dob, $house, $road, $city){
+    $db = mysqli_connect("localhost", 'root', '', 'cbook') or die('Could not connect !'.mysqli_connect_error());
 
+    $query1 = "UPDATE contacts SET Name='$name' WHERE CID='$cid'";
+    $query2 = "UPDATE email SET Email='$email' WHERE C_ID='$cid'";
+    $query3 = "UPDATE phone SET Phone='$phone' WHERE C_ID='$cid'";
+    $query4 = "UPDATE contacts SET Dob='$dob', House_no='$house', Road_no='$road', City='$city' WHERE C_ID='$cid'";
+
+   $q1=mysqli_query($db, $query1);
+    $q2=mysqli_query($db, $query2);
+    $q3=mysqli_query($db, $query3);
+    $q4=mysqli_query($db, $query4);
+
+    $q5=mysqli_close($db);
+
+    if(!$q1 || !$q1 || !$q1 || !$q1 || !$q1)
+    return false;
+
+    return true;
+    
   }
 
  function getDetails($cid){
@@ -169,18 +204,26 @@
 
  	$query = "SELECT
  	c.Name,
+  e.Email,
+  p.P_Number,
  	a.City,
  	a.Road_no,
  	a.House_no,
  	a.Dob
-    FROM contacts AS c left outer join address AS a on c.CID=a.C_ID WHERE c.CID='$cid'";
+  FROM contacts AS c left outer join 
+  email AS e on c.CID=e.C_ID
+  left outer join phone AS p ON c.CID=p.C_ID 
+  left outer join address AS a ON c.CID=a.C_ID 
+  WHERE c.CID='$cid'";
 
    $r=mysqli_query($db, $query);
  
    if($r){
+   	mysqli_close($db);
    	return mysqli_fetch_assoc($r);
    }
    else{
+   	mysqli_close($db);
    	return false;
    }
 

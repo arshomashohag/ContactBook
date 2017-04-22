@@ -23,6 +23,7 @@ if(isset($_POST['login']) ){
 
 	if($isok){
  		$_SESSION['username'] = $_POST['email'];
+ 		
  		header('Location: contacts.php');
  	}
  	 

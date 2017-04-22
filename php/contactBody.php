@@ -32,8 +32,8 @@ function getBody($str, $result){
 			        			      							</button>
 			        			      							<ul class="dropdown-menu">
 			        			      								<li>
-				        			      								<button class="btn btn-default btn-block" data-toggle="modal" data-target="#%s"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
-				        			      								</button>
+				        			      								<a href="editContacts.php?id=%s" style="text-align:center"><span  class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+				        			      								</a>
 			        			      								</li>
 			        			      								<li role="separator" class="divider"></li>
 			        			      								<li><button class="btn btn-default btn-block" data-toggle="modal" data-target="#%sdelete"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Delete</button></li>
@@ -48,48 +48,6 @@ function getBody($str, $result){
 			        			      						</div>
 			        			      					</td>
 			        			      				</tr>
-
-			        			      	  <!-- Modal -->
-										  <div class="modal fade" id="%s" role="dialog">
-										    <div class="modal-dialog">
-										    
-										      <!-- Modal content-->
-										      <div class="modal-content">
-										        <div class="modal-header">
-										         
-										          <button type="button" class="close" data-dismiss="modal">&times;</button>
-										          <h4 class="modal-title">Edit Contact</h4>
-										        </div>
-										        <div class="modal-body">
-										           <form method="post" action="editContacts.php">
-                                                     <input type="hidden" name="mid" value="%s">
- 													<label for="mname">Name</label>
-										           	<input class="form-control" id="mname" name="mname" value="%s" required>
-										           	<label for="memail">Email</label>
-										           	<input class="form-control" id="memail" name="memail" value="%s">
-										           	<label for="mphone">Phone</label>
-										           	<input class="form-control" id="mphone" name="mphone" value="%s">
-										           	<label for="mdob">Date of Birth</label>
-										           	<input class="form-control" id="mdob" name="mdob" value="%s">
-										           	<label for="mhouse">House No</label>
-										           	<input class="form-control" id="mhouse" name="mhouse" value="%s">
-										           	<label for="mroad">Road No</label>
-										           	<input class="form-control" id="mroad" name="mroad" value="%s">
-										           	<label for="mcity">City</label>
-										           	<input class="form-control" id="mcity" name="mcity" value="%s">
-													 <br>
-										           	<button type="submit" data-dismiss="modal" class="btn btn-primary">Done</button>  
-										           	 
-										           </form>
-										           
-										        </div>
-										         
-										      </div>
-										      
-										    </div>
-										  </div>
-
-
 
 
 										
@@ -118,7 +76,7 @@ function getBody($str, $result){
 										    </div>
 										  </div>
 
-	   					             <div class="clearfix"></div>', $row['Name'], $row['Email'], $row['P_Number'], $row['CID'], $row['CID'], $row['CID'], $row['CID'], $row['CID'],$row['Name'], $row['Email'], $row['P_Number'], $row['Dob'], $row['House_no'], $row['Road_no'], $row['City'],$row['CID'], $row['CID']);
+	   					             <div class="clearfix"></div>', $row['Name'], $row['Email'], $row['P_Number'], $row['CID'], $row['CID'], $row['CID'], $row['CID'], $row['CID']);
 
 			             }
 
@@ -162,3 +120,4 @@ function getBody($str, $result){
 
 
 ?>
+

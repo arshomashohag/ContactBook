@@ -3,12 +3,22 @@ include("../include/header.php");
 include("../include/footer.php");
 include("../php/db_function.php");
 
+if(session_id()=='' || !isset($_SESSION)) {
+    // session isn't started
+    session_start();
+}
+ $details;
+ $name="Details";
+
+if(isset($_SESSION['username'])){
 
 $details = getDetails($_GET['id']);
 
 
 if($details!=false){
 $name = $details['Name'];
+}
+
 }
 
 
@@ -54,45 +64,58 @@ $name = $details['Name'];
 	  	head('../', 'contacts.php', 'logout.php');
   ?>
    <div class="container">
+	   <div class="jumbotron">
+			    <h3>Contact Details</h3>
+			   
+			       <?php
+			          if(isset($details)){
+				          printf('<table class="table ">
 
-   <table class="table ">
-	   	<thead>
-	   		<tr>
-	   			<th>#</th>
-	   			<th>Details</th>
-	   		</tr>
-	   	</thead>
-	   	<tbody>
+						   	<thead>
+						   		<tr>
+						   			<th>#</th>
+						   			<th>Details</th>
+						   		</tr>
+						   	</thead>
+						   	<tbody>
+					   		<tr>
+					   			<th>Name</th>
+					   			<td>%s</td>
+					   		</tr>
+					   		<tr>
+					   			<th>Email</th>
+					   			<td>%s</td>
+					   		</tr>
+					   		<tr>
+					   			<th>Name</th>
+					   			<td>%s</td>
+					   		</tr>
 
-	   		<tr>
-	   			<th>Name</th>
-	   			<td><?php echo $name; ?></td>
-	   		</tr>
+					   		<tr>
+					   			<th>Address</th>
+					   			<td> 
+					   			        <address> 
+					   					 House No : %s<br>
+					   					 Road No : %s<br>
+					   					 City : %s<br>
+					   					  
+					   					</address>
+					   			 </td>
+					   		</tr>
 
-	   		<tr>
-	   			<th>Address</th>
-	   			<td><?php
+					   		<tr>
+					   			<th>Date Of Birth</th>
+					   			<td> 
+				 					%s
+					   			 </td>
+					   		</tr>
+					   		</tbody>
+			              </table>', $name, $details['Email'], $details['P_Number'],  $details['Dob'],  $details['House_no'],  $details['Road_no'],  $details['City']);
 
-	   					echo "<address>";
-	   					echo "House No : ".$details['House_no']."<br>";
-	   					echo "Road No : ".$details['Road_no']."<br>";
-	   					echo "City : ".$details['City']."<br>";
-	   					echo "</address>";
-	   			?></td>
-	   		</tr>
+			             }
 
-	   		<tr>
-	   			<th>Date Of Birth</th>
-	   			<td><?php
-
-	   					echo "<span >";
-	   					echo $details['Dob']."<br>";
-	   					echo "</span>";
-	   			?></td>
-	   		</tr>
-
-	   	</tbody>
-   </table>
+			           ?>
+		   	</div>
    	
    </div>
 
