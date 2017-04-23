@@ -87,8 +87,15 @@ $name = $details['Name'];
 					   			<td>%s</td>
 					   		</tr>
 					   		<tr>
-					   			<th>Name</th>
+					   			<th>Phone Number</th>
 					   			<td>%s</td>
+					   		</tr>
+
+					   		<tr>
+					   			<th>Date Of Birth</th>
+					   			<td> 
+				 					%s
+					   			 </td>
 					   		</tr>
 
 					   		<tr>
@@ -103,12 +110,7 @@ $name = $details['Name'];
 					   			 </td>
 					   		</tr>
 
-					   		<tr>
-					   			<th>Date Of Birth</th>
-					   			<td> 
-				 					%s
-					   			 </td>
-					   		</tr>
+					   		
 					   		</tbody>
 			              </table>', $name, $details['Email'], $details['P_Number'],  $details['Dob'],  $details['House_no'],  $details['Road_no'],  $details['City']);
 
@@ -120,7 +122,7 @@ $name = $details['Name'];
    </div>
 
 
-<div class="footer navbar-fixed-bottom">
+<div class="footer navbar-static-bottom">
    <?php
  		foot('../', 'contacts.php');
 	    ?>

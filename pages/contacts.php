@@ -152,7 +152,7 @@ if(isset($_POST['add'])){
 
 		 	}
 
-		 	function importC(email){
+		 	function exportC(email){
 		 			var xmlhttp;
                             
 
@@ -174,7 +174,7 @@ if(isset($_POST['add'])){
 
 						       }
 
-						      xmlhttp.open("GET", "../php/import.php?q=" + email, true);
+						      xmlhttp.open("GET", "../php/export.php?q=" + email, true);
 						      xmlhttp.send();
 							
                     return;		
@@ -226,7 +226,9 @@ if(isset($_POST['add'])){
 				        			      		</button>
 			        			      		</li>
 			        			      		<li role="separator" class="divider"></li>
-			        			      		<li><button class="btn btn-default" style="width: 100%"><span aria-hidden="true"><i class="fa fa-cloud-download" aria-hidden="true"></i>Export</span></button></li>
+			        			      		<li> 
+											<?php printf('<button class="btn btn-default"   onclick="exportC(%s)">', $username); ?>
+			        			      		<span aria-hidden="true"><i class="fa fa-cloud-download" aria-hidden="true"></i>Export</span></button></li>
 			        			      	</ul>
 			        			  </div>
 								<input type="text" id="srcCont" class="search" name="search" placeholder="Search" onkeyup="searchContact(this.value)">

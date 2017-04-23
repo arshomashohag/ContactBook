@@ -230,4 +230,45 @@
  }
 
 
+ function exportContact($email){
+
+  $db = mysqli_connect("localhost", 'root', '', 'cbook') or die('Could not connect !'.mysqli_connect_error());
+
+  $query = "SELECT 
+  u.ID,
+  c.CID,
+  c.Name,
+  e.EID,
+  e.Email,
+  p.PID,
+  p.P_Number,
+  a.AID,
+  a.Dob,
+  a.Road_no,
+  a.House_no,
+  a.City
+  INTO OUTFILE 'result.csv'
+  FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '*'
+  LINES TERMINATED BY '\n'
+
+  FROM users AS u left outer join contacts AS c 
+  on u.ID=c.User_ID 
+  left outer join email AS e 
+  on c.CID=e.C_ID 
+  left outer join phone AS p
+  on c.CID=p.C_ID 
+  left outer join address AS a
+  on c.CID=a.C_ID
+  WHERE u.Email='$email'";
+
+  if(mysqli_query($db, $query)){
+    return "Export Completed !!";
+  }
+  else{
+    return "Export failed, please try again !!";
+  }
+
+ }
+
+
 ?>
